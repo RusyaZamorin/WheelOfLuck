@@ -1,6 +1,6 @@
 {
-    "name": "WheelOfFortune",
-    "rootNamespace": "WheelOfFortune",
+    "name": "RuslanZamorin.WheelOfLuck",
+    "rootNamespace": "WheelOfLuck.Editor",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
