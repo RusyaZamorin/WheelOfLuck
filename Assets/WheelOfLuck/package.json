@@ -3,5 +3,8 @@
     "displayName": "WheelOfLuck",
     "author": { "name": "RuslanZamorin", "url": "https://github.com/RusyaZamorin" },
     "version": "1.0.0",
-    "description": "Wheel for drawing in-game bonuses."
+    "description": "Wheel for drawing in-game bonuses.",
+    "dependencies": {
+        "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
+    }
 }
