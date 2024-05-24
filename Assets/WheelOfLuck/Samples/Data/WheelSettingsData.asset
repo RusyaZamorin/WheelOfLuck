@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe59c03f0c224f5390c4a6c23e7985b6, type: 3}
   m_Name: WheelSettingsData
   m_EditorClassIdentifier: 
-  scrollingSpeed: 8
-  capacity: 7
-  countConsumableBonuses: 5
+  scrollingSpeed: 4
+  capacity: 8
+  countConsumableBonuses: 6
   countNonConsumableBonuses: 2
-  countFreeScrolls: 1
+  countFreeScrolls: 2
   spinCostUsual: 10
   spinCostSpecial: 1
   presets:
@@ -29,3 +29,4 @@ MonoBehaviour:
     - UsualMoney10
     - Item2
     - UsualMoney1000
+    - UsualMoney100

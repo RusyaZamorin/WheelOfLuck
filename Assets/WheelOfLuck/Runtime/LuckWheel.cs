@@ -14,7 +14,8 @@ namespace WheelOfLuck
         private IWheelMoneyService moneyService;
         private WheelSettings settings;
         private IWheelPresenter wheelPresenter;
-
+        private bool isScrolling;
+        
         private int numberOfScroll;
         private int numberOfFreeScroll;
         private List<IBonus> actualBonuses = new();
