@@ -34,8 +34,8 @@ namespace WheelOfLuck.Sample
                 new UsualMoneyBonus("UsualMoney10", 10, 0.9, money),
                 new UsualMoneyBonus("UsualMoney25", 25, 0.7, money),
                 new UsualMoneyBonus("UsualMoney50", 50, 0.4, money),
-                new UsualMoneyBonus("UsualMoney100", 50, 0.1, money),
-                new UsualMoneyBonus("UsualMoney1000", 50, 0.01, money),
+                new UsualMoneyBonus("UsualMoney100", 100, 0.1, money),
+                new UsualMoneyBonus("UsualMoney1000", 1000, 0.01, money),
 
                 new SpecialMoneyBonus("Gem1", 1, 0.3, money),
                 new SpecialMoneyBonus("Gem2", 2, 0.1, money),
