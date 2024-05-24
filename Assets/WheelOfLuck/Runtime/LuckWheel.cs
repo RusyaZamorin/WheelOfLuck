@@ -18,7 +18,7 @@ namespace WheelOfLuck
         private int numberOfScroll;
         private int numberOfFreeScroll;
         private List<IBonus> actualBonuses = new();
-        private List<IBonus> receivedConsumableBonuses = new();
+        private List<IBonus> receivedNonConsumableBonuses = new();
 
 
         public int NumberOfScroll => numberOfScroll;
@@ -41,13 +41,13 @@ namespace WheelOfLuck
             var preset = settings.GetPresetFor(numberOfScroll);
             if (preset != null)
             {
-                actualBonuses = preset.Content;
+                actualBonuses = preset.ContentNames.Select(n => settings.GetBonusByName(n)).ToList();
             }
             else
             {
                 actualBonuses.Clear();
                 actualBonuses.AddRange(GetRandomBonusesByType(BonusType.Consumable));
-                actualBonuses.AddRange(GetRandomBonusesByType(BonusType.NonConsumable));    
+                actualBonuses.AddRange(GetRandomBonusesByType(BonusType.NonConsumable));
             }
 
             wheelPresenter.Generate(actualBonuses);
@@ -73,12 +73,15 @@ namespace WheelOfLuck
 
         private async UniTask<IBonus> Scroll()
         {
-            var resultBonus = GetRandomBonusFrom(actualBonuses);
-            
+            var preset = settings.GetPresetFor(numberOfScroll);
+            var resultBonus = preset != null
+                ? settings.GetBonusByName(preset.ResultBonusName)
+                : GetRandomBonusFrom(actualBonuses);
+
             await wheelPresenter.Scroll(resultBonus, settings.ScrollingSpeed);
             numberOfScroll++;
             OnScroll?.Invoke();
-            
+
             resultBonus.Activate();
 
             if (settings.GetPresetFor(numberOfScroll) != null)
@@ -86,25 +89,26 @@ namespace WheelOfLuck
                 Generate();
                 return resultBonus;
             }
-            
-            if (resultBonus.Type == BonusType.Consumable)
+
+            if (resultBonus.Type == BonusType.NonConsumable)
             {
-                receivedConsumableBonuses.Add(resultBonus);
-                ReplaceReceivedConsumable(resultBonus);
+                receivedNonConsumableBonuses.Add(resultBonus);
+                ReplaceReceivedNonConsumable(resultBonus);
             }
 
             return resultBonus;
         }
 
-        private void ReplaceReceivedConsumable(IBonus bonus)
+        private void ReplaceReceivedNonConsumable(IBonus bonus)
         {
             var bonuses = settings.Bonuses
-                .Where(b => b.Type == BonusType.Consumable && !receivedConsumableBonuses.Contains(b))
+                .Where(b => b.Type == BonusType.NonConsumable && !receivedNonConsumableBonuses.Contains(b))
                 .ToList();
+
             
             var replacedItemIndex = actualBonuses.IndexOf(bonus);
             actualBonuses[replacedItemIndex] = GetRandomBonusesFrom(bonuses, 1).First();
-            
+
             wheelPresenter.UpdateBonuses(actualBonuses);
         }
 
@@ -113,8 +117,8 @@ namespace WheelOfLuck
             var bonuses = settings.Bonuses
                 .Where(b =>
                 {
-                    if (bonusType == BonusType.Consumable)
-                        return b.Type == BonusType.Consumable && !receivedConsumableBonuses.Contains(b);
+                    if (bonusType == BonusType.NonConsumable)
+                        return b.Type == BonusType.NonConsumable && !receivedNonConsumableBonuses.Contains(b);
 
                     return b.Type == bonusType;
                 })
@@ -144,7 +148,7 @@ namespace WheelOfLuck
             var totalWeight = bonuses.Sum(b => b.Weight);
             var randomValue = random.NextDouble() * totalWeight;
 
-            return bonuses.FirstOrDefault(bonus => randomValue < bonus.Weight);
+            return bonuses.FirstOrDefault(b => (randomValue -= b.Weight) < 0);
         }
     }
 }

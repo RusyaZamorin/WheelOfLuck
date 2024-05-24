@@ -11,8 +11,31 @@ namespace WheelOfLuck.Sample
         [SerializeField] private TMP_Text usualMoneyField;
         [SerializeField] private TMP_Text specialMoneyField;
 
-        private Dictionary<MoneyType, int> moneyCount;
-        
+        private Dictionary<MoneyType, int> moneyCount = new()
+        {
+            [MoneyType.Usual] = 100,
+            [MoneyType.Special] = 5,
+        };
+
+
+        private void Awake()
+        {
+            UpdateField(MoneyType.Usual);
+            UpdateField(MoneyType.Special);
+        }
+
+        public void AddUsual(int count)
+        {
+            moneyCount[MoneyType.Usual] += count;
+            UpdateField(MoneyType.Usual);
+        }
+
+        public void AddSpecial(int count)
+        {
+            moneyCount[MoneyType.Special] += count;
+            UpdateField(MoneyType.Special);
+        }
+
         public bool BuyScroll(int cost, MoneyType moneyType)
         {
             if (moneyCount[moneyType] >= cost)
@@ -33,7 +56,14 @@ namespace WheelOfLuck.Sample
                 MoneyType.Usual => usualMoneyField,
                 MoneyType.Special => specialMoneyField,
             };
-            moneyField.text = moneyCount[moneyType].ToString();
+            
+            var postfix = moneyType switch
+            {
+                MoneyType.Usual => "$",
+                MoneyType.Special => " gem",
+            };
+            
+            moneyField.text = $"{moneyCount[moneyType]}{postfix}";
         }
     }
 }

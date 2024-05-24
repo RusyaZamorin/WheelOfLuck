@@ -39,6 +39,9 @@ namespace WheelOfLuck
         public ScrollPreset GetPresetFor(int numberOfScroll) => 
             numberOfScroll < Presets.Count ? Presets[numberOfScroll] : null;
 
+        public IBonus GetBonusByName(string name) => 
+            Bonuses.First(b => b.Name == name);
+
         private void CheckCapacity()
         {
             if (CountBonusesByTypes.Sum(i => i.Value) > Capacity)
