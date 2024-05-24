@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: WheelSettingsData
   m_EditorClassIdentifier: 
   scrollingSpeed: 10
-  capacity: 6
-  countConsumableBonuses: 4
+  capacity: 7
+  countConsumableBonuses: 5
   countNonConsumableBonuses: 2
   countFreeScrolls: 1
   spinCostUsual: 10
   spinCostSpecial: 1
   presets:
-  - ResultBonusName: UsualMoney10
+  - ResultBonusName: Item1
     ContentNames:
     - UsualMoney5
     - Item1

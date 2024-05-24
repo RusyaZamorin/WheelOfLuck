@@ -23,11 +23,7 @@ namespace WheelOfLuck.Sample
             }).ToList();
             
             spin.AutoGenerateSpin();
-
         }
-
-        public void UpdateBonuses(List<IBonus> bonuses) => 
-            Generate(bonuses);
 
         public async UniTask Scroll(IBonus result, float speed)
         {

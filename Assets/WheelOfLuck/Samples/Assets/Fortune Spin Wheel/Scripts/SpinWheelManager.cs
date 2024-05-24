@@ -317,6 +317,8 @@ public class SpinWheelManager : MonoBehaviour
 
     public void AutoGenerateSpin()
     {
+        wheel.eulerAngles = Vector3.zero;
+
         if (items.Count <= 2)
         {
             Debug.LogError("Minimum Items Count Is 3.");

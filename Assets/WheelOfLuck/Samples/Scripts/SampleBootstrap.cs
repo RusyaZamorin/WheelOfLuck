@@ -17,6 +17,7 @@ namespace WheelOfLuck.Sample
         [SerializeField] private Button scrollFreeButton;
         [SerializeField] private Button scrollPaidUsualButton;
         [SerializeField] private Button scrollPaidSpecialButton;
+        [SerializeField] private Button reGenerateButton;
 
         private LuckWheel luckWheel;
 
@@ -25,6 +26,7 @@ namespace WheelOfLuck.Sample
             scrollFreeButton.onClick.AddListener(FreeScroll);
             scrollPaidUsualButton.onClick.AddListener(PaidByUsualMoney);
             scrollPaidSpecialButton.onClick.AddListener(PaidBySpecialMoney);
+            reGenerateButton.onClick.AddListener(() => luckWheel.Generate());
             
             var bonuses = new List<IBonus>
             {

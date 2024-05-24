@@ -24,6 +24,9 @@ namespace WheelOfLuck
         public int NumberOfScroll => numberOfScroll;
         public List<IBonus> Content => actualBonuses;
 
+        private bool AllNonConsumablesIsReceived => settings.Bonuses
+            .Where(b => b.Type == BonusType.NonConsumable)
+            .All(b => receivedNonConsumableBonuses.Contains(b));
 
         public event Action OnScroll;
         public event Action<ScrollFailType> OnScrollFailed;
@@ -46,8 +49,15 @@ namespace WheelOfLuck
             else
             {
                 actualBonuses.Clear();
-                actualBonuses.AddRange(GetRandomBonusesByType(BonusType.Consumable));
-                actualBonuses.AddRange(GetRandomBonusesByType(BonusType.NonConsumable));
+                if (AllNonConsumablesIsReceived)
+                {
+                    actualBonuses.AddRange(GetRandomBonusesByType(BonusType.Consumable, settings.Capacity));
+                }
+                else
+                {
+                    actualBonuses.AddRange(GetRandomBonusesByType(BonusType.Consumable));
+                    actualBonuses.AddRange(GetRandomBonusesByType(BonusType.NonConsumable));
+                }
             }
 
             wheelPresenter.Generate(actualBonuses);
@@ -93,26 +103,16 @@ namespace WheelOfLuck
             if (resultBonus.Type == BonusType.NonConsumable)
             {
                 receivedNonConsumableBonuses.Add(resultBonus);
-                ReplaceReceivedNonConsumable(resultBonus);
+                Generate();
             }
 
             return resultBonus;
         }
 
-        private void ReplaceReceivedNonConsumable(IBonus bonus)
-        {
-            var bonuses = settings.Bonuses
-                .Where(b => b.Type == BonusType.NonConsumable && !receivedNonConsumableBonuses.Contains(b))
-                .ToList();
+        private List<IBonus> GetRandomBonusesByType(BonusType bonusType) =>
+            GetRandomBonusesByType(bonusType, settings.CountBonusesByTypes[bonusType]);
 
-            
-            var replacedItemIndex = actualBonuses.IndexOf(bonus);
-            actualBonuses[replacedItemIndex] = GetRandomBonusesFrom(bonuses, 1).First();
-
-            wheelPresenter.UpdateBonuses(actualBonuses);
-        }
-
-        private List<IBonus> GetRandomBonusesByType(BonusType bonusType)
+        private List<IBonus> GetRandomBonusesByType(BonusType bonusType, int count)
         {
             var bonuses = settings.Bonuses
                 .Where(b =>
@@ -124,7 +124,7 @@ namespace WheelOfLuck
                 })
                 .ToList();
 
-            return GetRandomBonusesFrom(bonuses, settings.CountBonusesByTypes[bonusType]);
+            return GetRandomBonusesFrom(bonuses, count);
         }
 
         private List<IBonus> GetRandomBonusesFrom(List<IBonus> bonuses, int count)
