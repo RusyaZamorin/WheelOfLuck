@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe59c03f0c224f5390c4a6c23e7985b6, type: 3}
+  m_Name: WheelSettingsData
+  m_EditorClassIdentifier: 
+  scrollingSpeed: 10
+  capacity: 7
+  countConsumableBonuses: 5
+  countNonConsumableBonuses: 2
+  countFreeScrolls: 1
+  spinCostUsual: 10
+  spinCostSpecial: 1
+  presets:
+  - ResultBonusName: Item1
+    ContentNames:
+    - UsualMoney5
+    - Item1
+    - UsualMoney25
+    - Gem2
+    - UsualMoney10
+    - Item2
