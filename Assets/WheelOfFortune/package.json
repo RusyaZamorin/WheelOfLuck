@@ -1,0 +1,8 @@
+{
+    "name": "cus.ruslanzamorin.wheelofluck",
+    "displayName": "WheelOfLuck",
+    "author": { "name": "RuslanZamorin", "url": "https://github.com/RusyaZamorin" },
+    "version": "1.0.0",
+    "unity": "2021.3.26",
+    "description": "Wheel for drawing in-game bonuses."
+}
