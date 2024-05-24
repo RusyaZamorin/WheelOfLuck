@@ -20,10 +20,12 @@ In it, you need to create in-game purchasing of wheel scroll (by usual or specia
 + Realize **IWheelPresenter** interface. 
 This object is used to visualization the wheel.
 You can use prefab in samples, or create your wheel.
+
 ![Screenshot_2](https://github.com/RusyaZamorin/WheelOfLuck/assets/59511793/c3412fb7-1e0c-48b5-bf5d-6df3c25e97de)
 
 + Realize custom bonuses for your project. 
 For this you need to implement **IBonus** interface.
+
 ![Screenshot_3](https://github.com/RusyaZamorin/WheelOfLuck/assets/59511793/8cece1a9-dab4-4975-b57c-96d871609cc5)
   + Name - bonus name.
   + Description - short description of bonus. May be used for text visualization of bonus.
