@@ -13,9 +13,6 @@ namespace WheelOfLuck.Sample.Bonuses
         public BonusType Type => BonusType.Consumable;
         public double Weight { get; }
 
-        public void Activate() => 
-            money.AddUsual(value);
-
         public UsualMoneyBonus(string name, int value, double weight, Money money)
         {
             this.value = value;
@@ -23,5 +20,8 @@ namespace WheelOfLuck.Sample.Bonuses
             Name = name;
             Weight = weight;
         }
+
+        public void Activate() => 
+            money.AddUsual(value);
     }
 }

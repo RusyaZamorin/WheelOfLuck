@@ -45,10 +45,8 @@ namespace WheelOfLuck.Sample
                 new CollectItemBonus("Item2", "Item2", 0.2, itemsCollector),
                 new CollectItemBonus("Item3", "Item3", 0.1, itemsCollector),
             };
-            var settings = wheelSettingsData.GetSettings(bonuses);
-            
-            luckWheel = new LuckWheel(settings, wheelPresenter, money);
-            
+
+            luckWheel = new LuckWheel(wheelSettingsData.GetSettings(bonuses), wheelPresenter, money);
             luckWheel.Generate();
         }
 
