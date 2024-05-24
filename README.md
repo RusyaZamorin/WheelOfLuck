@@ -9,15 +9,15 @@ Provides an opportunity to conveniently add a wheel of fortune to the game.
 + Install package from url "https://github.com/RusyaZamorin/WheelOfLuck.git?path=Assets/WheelOfLuck"
 ![Install](https://github.com/RusyaZamorin/WheelOfLuck/assets/59511793/137eab02-b262-40d4-81d3-0c9cc2616d41)
 
-+ See samples
++ look at the samples
 
-+ Realize **IWheelMoneyService** interface. 
++ Implement **IWheelMoneyService** interface. 
 Here you need to implement one method: BuyScroll().
 In it, you need to create in-game purchasing of wheel scroll (by usual or special money).
 
   ![Screenshot_1](https://github.com/RusyaZamorin/WheelOfLuck/assets/59511793/b6a09ab9-a120-4289-93a2-4c91d2ebcdbb)
 
-+ Realize **IWheelPresenter** interface. 
++ Implement **IWheelPresenter** interface. 
 This object is used to visualization the wheel.
 You can use prefab in samples, or create your wheel.
 
