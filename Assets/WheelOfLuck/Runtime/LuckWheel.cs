@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using WheelOfLuck.Enums;
+using WheelOfLuck.Interfaces;
 
 namespace WheelOfLuck
 {
@@ -24,9 +25,6 @@ namespace WheelOfLuck
         public List<IBonus> Content => actualBonuses;
 
 
-        public event Action OnGenerated;
-        public event Action OnFreeScroll;
-        public event Action OnPaidScroll;
         public event Action OnScroll;
         public event Action<ScrollFailType> OnScrollFailed;
 
@@ -40,18 +38,23 @@ namespace WheelOfLuck
 
         public void Generate()
         {
-            actualBonuses.Clear();
-            actualBonuses.AddRange(GetRandomBonusesByType(BonusType.Consumable));
-            actualBonuses.AddRange(GetRandomBonusesByType(BonusType.NonConsumable));
+            var preset = settings.GetPresetFor(numberOfScroll);
+            if (preset != null)
+            {
+                actualBonuses = preset.Content;
+            }
+            else
+            {
+                actualBonuses.Clear();
+                actualBonuses.AddRange(GetRandomBonusesByType(BonusType.Consumable));
+                actualBonuses.AddRange(GetRandomBonusesByType(BonusType.NonConsumable));    
+            }
 
             wheelPresenter.Generate(actualBonuses);
-
-            OnGenerated?.Invoke();
         }
 
         public UniTask<IBonus> FreeScroll()
         {
-            OnFreeScroll?.Invoke();
             numberOfFreeScroll++;
             return Scroll();
         }
@@ -62,10 +65,7 @@ namespace WheelOfLuck
                 return new PaidScrollResult(await FreeScroll());
 
             if (moneyService.BuyScroll(settings.ScrollCosts[moneyType], moneyType))
-            {
-                OnPaidScroll?.Invoke();
                 return new PaidScrollResult(await Scroll());
-            }
 
             OnScrollFailed?.Invoke(ScrollFailType.NotEnoughMoney);
             return new PaidScrollResult(null, ScrollFailType.NotEnoughMoney);
@@ -74,12 +74,19 @@ namespace WheelOfLuck
         private async UniTask<IBonus> Scroll()
         {
             var resultBonus = GetRandomBonusFrom(actualBonuses);
+            
             await wheelPresenter.Scroll(resultBonus, settings.ScrollingSpeed);
-            resultBonus.Activate();
-
             numberOfScroll++;
             OnScroll?.Invoke();
+            
+            resultBonus.Activate();
 
+            if (settings.GetPresetFor(numberOfScroll) != null)
+            {
+                Generate();
+                return resultBonus;
+            }
+            
             if (resultBonus.Type == BonusType.Consumable)
             {
                 receivedConsumableBonuses.Add(resultBonus);
@@ -137,8 +144,7 @@ namespace WheelOfLuck
             var totalWeight = bonuses.Sum(b => b.Weight);
             var randomValue = random.NextDouble() * totalWeight;
 
-            var randomBonus = bonuses.FirstOrDefault(bonus => randomValue < bonus.Weight);
-            return randomBonus;
+            return bonuses.FirstOrDefault(bonus => randomValue < bonus.Weight);
         }
     }
 }

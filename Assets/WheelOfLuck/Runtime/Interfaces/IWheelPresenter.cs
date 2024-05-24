@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 
-namespace WheelOfLuck
+namespace WheelOfLuck.Interfaces
 {
     public interface IWheelPresenter
     {

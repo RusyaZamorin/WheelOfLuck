@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using WheelOfLuck.Enums;
+using WheelOfLuck.Interfaces;
 
 namespace WheelOfLuck
 {
@@ -16,11 +17,11 @@ namespace WheelOfLuck
         public float ScrollingSpeed;
 
         public WheelSettings(
-            float scrollingSpeed, 
-            int capacity, 
-            Dictionary<BonusType, int> countBonusesByTypes, 
-            List<IBonus> bonuses, 
-            int countFreeScrolls, 
+            float scrollingSpeed,
+            int capacity,
+            Dictionary<BonusType, int> countBonusesByTypes,
+            List<IBonus> bonuses,
+            int countFreeScrolls,
             Dictionary<MoneyType, int> scrollCosts,
             List<ScrollPreset> presets)
         {
@@ -31,9 +32,12 @@ namespace WheelOfLuck
             CountFreeScrolls = countFreeScrolls;
             ScrollCosts = scrollCosts;
             Presets = presets;
-            
+
             CheckCapacity();
         }
+
+        public ScrollPreset GetPresetFor(int numberOfScroll) => 
+            numberOfScroll < Presets.Count ? Presets[numberOfScroll] : null;
 
         private void CheckCapacity()
         {

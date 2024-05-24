@@ -1,4 +1,5 @@
 ﻿using WheelOfLuck.Enums;
+using WheelOfLuck.Interfaces;
 
 namespace WheelOfLuck
 {

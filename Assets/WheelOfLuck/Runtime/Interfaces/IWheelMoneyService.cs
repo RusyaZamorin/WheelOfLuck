@@ -1,6 +1,6 @@
 ﻿using WheelOfLuck.Enums;
 
-namespace WheelOfLuck
+namespace WheelOfLuck.Interfaces
 {
     public interface IWheelMoneyService
     {
