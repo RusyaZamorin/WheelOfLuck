@@ -27,6 +27,7 @@ namespace WheelOfLuck.Sample
 
         public async UniTask Scroll(IBonus result, float speed)
         {
+            spin.spinSpeed = speed * 100;
             spin.DoSpin(spin.items.FindIndex(i => i.text == result.Description));
             
             await UniTask.WaitUntil(() => spin.IsSpinFinished);

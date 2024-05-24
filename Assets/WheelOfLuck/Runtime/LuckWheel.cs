@@ -86,7 +86,7 @@ namespace WheelOfLuck
             var preset = settings.GetPresetFor(numberOfScroll);
             var resultBonus = preset != null
                 ? settings.GetBonusByName(preset.ResultBonusName)
-                : GetRandomBonusFrom(actualBonuses);
+                : RandomizeBonus(actualBonuses);
 
             await wheelPresenter.Scroll(resultBonus, settings.ScrollingSpeed);
             numberOfScroll++;
@@ -123,27 +123,23 @@ namespace WheelOfLuck
                     return b.Type == bonusType;
                 })
                 .ToList();
-
+            
             return GetRandomBonusesFrom(bonuses, count);
         }
 
         private List<IBonus> GetRandomBonusesFrom(List<IBonus> bonuses, int count)
         {
             var result = new List<IBonus>();
-
             if (bonuses.Count == 1)
             {
                 result.Add(bonuses.First());
                 return result;
             }
 
-            for (var i = 0; i < count; i++)
-                result.Add(GetRandomBonusFrom(bonuses));
-
-            return result;
+            return bonuses.OrderBy(b => Guid.NewGuid()).ToList().GetRange(0,count);
         }
 
-        private IBonus GetRandomBonusFrom(List<IBonus> bonuses)
+        private IBonus RandomizeBonus(List<IBonus> bonuses)
         {
             var totalWeight = bonuses.Sum(b => b.Weight);
             var randomValue = random.NextDouble() * totalWeight;
